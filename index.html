@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TechPulse // IT Блог</title>
+    <style>
+        :root {
+            --bg-main: #0b0f19;
+            --bg-card: #151d30;
+            --accent-cyan: #00f2fe;
+            --accent-purple: #4facfe;
+            --text-white: #ffffff;
+            --text-gray: #94a3b8;
+        }
+
+        * {
+            box-sizing: border-box;
+            transition: all 0.25s ease;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-white);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        /* Шапка */
+        header {
+            position: sticky;
+            top: 0;
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(12px);
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        /* Главный экран / Промо */
+        .hero {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 60px 20px;
+            text-align: center;
+            background: radial-gradient(circle at top, rgba(0, 242, 254, 0.1), transparent 60%);
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            font-weight: 800;
+        }
+
+        .hero p {
+            color: var(--text-gray);
+            font-size: 18px;
+            max-width: 600px;
+            margin: 0 auto 30px;
+        }
+
+        /* Табы/Категории */
+        .filter-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-white);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 10px 24px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .filter-btn:hover, .filter-btn.active {
+            background: linear-gradient(45deg, var(--accent-cyan), var(--accent-purple));
+            color: #000;
+            font-weight: 600;
+            border-color: transparent;
+            box-shadow: 0 4px 15px rgba(0, 242, 254, 0.3);
+        }
+
+        /* Сетка блогов */
+        .blog-grid {
+            max-width: 1200px;
+            margin: 0 auto 60px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .post-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            display: flex;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .post-card:hover {
+            transform: translateY(-6px);
+            border-color: rgba(0, 242, 254, 0.3);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .post-content {
+            padding: 25px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .post-tag {
+            align-self: flex-start;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent-cyan);
+            letter-spacing: 1px;
+            margin-bottom: 12px;
+        }
+
+        .post-title {
+            font-size: 20px;
+            margin: 0 0 12px 0;
+            line-height: 1.4;
+        }
+
+        .post-excerpt {
+            color: var(--text-gray);
+            font-size: 14px;
+            margin: 0 0 20px 0;
+            flex-grow: 1;
+        }
+
+        .post-meta {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            color: var(--text-gray);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+        }
+
+        /* Подвал */
+        footer {
+            text-align: center;
+            padding: 40px;
+            color: var(--text-gray);
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 14px;
+        }
+
+        /* Скрытие элементов для фильтра */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <a href="#" class="logo">⚡ TECHPULSE</a>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Мысли, гайды и инсайты из мира IT</h1>
+            <p>Пишу о разработке, нейросетях и современном дизайне. Чистый код и понятные разборы.</p>
+            
+            <!-- Фильтры статей -->
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterArticles('all')">Все статьи</button>
+                <button class="filter-btn" onclick="filterArticles('dev')">Разработка</button>
+                <button class="filter-btn" onclick="filterArticles('ai')">ИИ и Нейросети</button>
+                <button class="filter-btn" onclick="filterArticles('design')">Дизайн</button>
+            </div>
+        </section>
+
+        <!-- Сетка со статьями -->
+        <div class="blog-grid">
+            
+            <!-- Статья 1 -->
+            <div class="post-card" data-category="dev" onclick="alert('Открытие полной статьи реализуется через создание отдельной страницы (например, post1.html)')">
+                <div class="post-content">
+                    <span class="post-tag">Разработка</span>
+                    <h3 class="post-title">Будущее веб-разработки: Переходить ли на новый стек в 2026 году?</h3>
+                    <p class="post-excerpt">Разбираем архитектурные изменения современных фреймворков и то, какие навыки станут ключевыми для фронтендеров в ближайшие годы.</p>
+                    <div class="post-meta">
+                        <span>12 янв 2026</span>
+                        <span>• 5 мин чтения</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Статья 2 -->
+            <div class="post-card" data-category="ai" onclick="alert('Открытие статьи')">
+                <div class="post-content">
+                    <span class="post-tag">ИИ и Нейросети</span>
+                    <h3 class="post-title">Локальный запуск LLM: Инструкция для разработчика</h3>
+                    <p class="post-excerpt">Как развернуть мощную языковую модель прямо на домашнем ПК без цензуры и платы за API-запросы.</p>
+                    <div class="post-meta">
+                        <span>08 янв 2026</span>
+                        <span>• 8 мин чтения</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Статья 3 -->
+            <div class="post-card" data-category="design" onclick="alert('Открытие статьи')">
+                <div class="post-content">
+                    <span class="post-tag">Дизайн</span>
+                    <h3 class="post-title">Тренды UI/UX: Почему минимализм снова побеждает</h3>
+                    <p class="post-excerpt">Анализируем, почему сложные 3D-интерфейсы уступают место сверхбыстрому контентно-ориентированному дизайну.</p>
+                    <div class="post-meta">
+                        <span>03 янв 2026</span>
+                        <span>• 4 мин чтения</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Статья 4 -->
+            <div class="post-card" data-category="dev" onclick="alert('Открытие статьи')">
+                <div class="post-content">
+                    <span class="post-tag">Разработка</span>
+                    <h3 class="post-title">Гайд по GitHub Actions: Автоматизируем деплой</h3>
+                    <p class="post-excerpt">Настраиваем CI/CD пайплайн для автоматической проверки вашего кода и мгновенного обновления сайта при каждом коммите.</p>
+                    <div class="post-meta">
+                        <span>25 дек 2025</span>
+                        <span>• 6 мин чтения</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        &copy; 2026 TechPulse Blog. Работает на GitHub Pages.
+    </footer>
+
+    <script>
+        // Функция фильтрации карточек
+        function filterArticles(category) {
+            // Переключаем активный класс на кнопках
+            const buttons = document.querySelectorAll('.filter-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Фильтруем карточки
+            const cards = document.querySelectorAll('.post-card');
+            cards.forEach(card => {
+                if (category === 'all' || card.getAttribute('data-category') === category) {
+                    card.classList.remove('hidden');
+                } else {
+                    card.classList.add('hidden');
+                }
+            });
+        }
+    </script>
+</body>
+</html>
